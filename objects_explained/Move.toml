@@ -1,9 +1,9 @@
 [package]
+name = "objects_explained"
 version = "0.0.1"
-name = "nft_tutorial"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 
 [addresses]
-nft_tutorial = "0x0"
+objects_explained = "0x0"

@@ -1,9 +1,8 @@
 [package]
-version = "0.0.1"
-name = "nft_tutorial"
+name = "supra-svalue-feed-framework"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 
 [addresses]
-nft_tutorial = "0x0"
+supra-svalue-feed-framework = "0x0"
