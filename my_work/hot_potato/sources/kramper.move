@@ -5,7 +5,7 @@ module hot_potato::kramper {
     
     struct Kramper {}
 
-    struct Reward has key {
+    struct Reward has key, store {
         id: UID,
         message: String
     }
