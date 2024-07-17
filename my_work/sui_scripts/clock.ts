@@ -1,6 +1,6 @@
-import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
-import { TransactionBlock } from "@mysten/sui.js/transactions";
+import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 import { keypair } from "./keypair";
+import { Transaction } from "@mysten/sui/transactions";
 
 const rpcUrl = getFullnodeUrl("devnet");
 
@@ -8,7 +8,7 @@ const client = new SuiClient({ url: rpcUrl });
 
 (async () => {
   try {
-    const txb = new TransactionBlock();
+    const txb = new Transaction();
 
     const timestamp = txb.moveCall({
       target: "0x2::clock::timestamp_ms",
@@ -17,9 +17,9 @@ const client = new SuiClient({ url: rpcUrl });
 
     txb.setGasBudget(50000000);
 
-    const result = await client.signAndExecuteTransactionBlock({
+    const result = await client.signAndExecuteTransaction({
       signer: keypair,
-      transactionBlock: txb,
+      transaction: txb,
       options: {
         showObjectChanges: true,
       },

@@ -13,8 +13,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@mysten/dapp-kit": "^0.12.2",
-    "@mysten/sui.js": "^0.50.1",
+    "@mysten/dapp-kit": "^0.14.11",
+    "@mysten/sui": "^1.2.1",
     "dotenv": "^16.4.5"
   }
 }

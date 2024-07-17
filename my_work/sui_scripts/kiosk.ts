@@ -1,12 +1,12 @@
-import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
-import { TransactionBlock } from "@mysten/sui.js/transactions";
+import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 import { keypair } from "./keypair";
+import { Transaction } from "@mysten/sui/transactions";
 
 const rpcUrl = getFullnodeUrl("devnet");
 
 const client = new SuiClient({ url: rpcUrl });
 
-const createKiosk = (txb: TransactionBlock) => {
+const createKiosk = (txb: Transaction) => {
   const [kiosk, kioskCap] = txb.moveCall({
     target: "0x2::kiosk::new",
   });
@@ -14,7 +14,7 @@ const createKiosk = (txb: TransactionBlock) => {
 };
 
 const destroyAndWithdraw = (
-  txb: TransactionBlock,
+  txb: Transaction,
   kioskAddr: string,
   kioskCapAddr: string
 ) => {
@@ -26,7 +26,7 @@ const destroyAndWithdraw = (
 };
 
 const placeItem = (
-  txb: TransactionBlock,
+  txb: Transaction,
   kioskAddr: string,
   kioskCapAddr: string,
   itemAddr: string,
@@ -44,7 +44,7 @@ const placeItem = (
 };
 
 const takeItem = (
-  txb: TransactionBlock,
+  txb: Transaction,
   kioskAddr: string,
   kioskCapAddr: string,
   itemAddr: string,
@@ -66,7 +66,7 @@ const takeItem = (
 
 (async () => {
   try {
-    const txb = new TransactionBlock();
+    const txb = new Transaction();
 
     takeItem(
       txb,
@@ -79,9 +79,9 @@ const takeItem = (
 
     txb.setGasBudget(50000000);
 
-    const result = await client.signAndExecuteTransactionBlock({
+    const result = await client.signAndExecuteTransaction({
       signer: keypair,
-      transactionBlock: txb,
+      transaction: txb,
       options: {
         showObjectChanges: true,
       },

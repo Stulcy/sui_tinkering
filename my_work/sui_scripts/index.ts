@@ -1,4 +1,4 @@
-import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
+import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 
 const rpcUrl = getFullnodeUrl("devnet");
 
