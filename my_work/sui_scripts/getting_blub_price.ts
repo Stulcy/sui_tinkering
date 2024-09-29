@@ -8,14 +8,18 @@ const rpcUrl = getFullnodeUrl("mainnet");
 
 const client = new SuiClient({ url: rpcUrl });
 
-let pool = await client.getObject({
-  id: BLUB_SUI_CETUS_POOL,
-  options: { showContent: true },
-});
+export const getBlubPrice = async () => {
+  let pool = await client.getObject({
+    id: BLUB_SUI_CETUS_POOL,
+    options: { showContent: true },
+  });
 
-const blubAmount = (pool.data?.content as any).fields.coin_a / 10 ** 2;
-const suiAmount = (pool.data?.content as any).fields.coin_b / 10 ** 9;
+  const blubAmount = (pool.data?.content as any).fields.coin_a / 10 ** 2;
+  const suiAmount = (pool.data?.content as any).fields.coin_b / 10 ** 9;
 
-const suiPrice = await getSuiPriceCMC();
+  const suiPrice = await getSuiPriceCMC();
 
-console.log((suiAmount / blubAmount) * suiPrice);
+  return (suiAmount / blubAmount) * suiPrice;
+};
+
+console.log(await getBlubPrice());
