@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@mysten/dapp-kit": "^0.14.11",
-    "@mysten/sui": "^1.2.1",
-    "dotenv": "^16.4.5"
+    "@mysten/sui": "^1.2.1"
   }
 }
