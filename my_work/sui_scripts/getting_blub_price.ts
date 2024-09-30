@@ -22,10 +22,11 @@ export const getBlubPrice = async () => {
   return (suiAmount / blubAmount) * suiPrice;
 };
 
-const blubPrice = await getBlubPrice();
-const formattedAmount = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-}).format(blubPrice * +(process.env.BLUB_AMOUNT ?? ""));
+// const blubPrice = await getBlubPrice();
+// const formattedAmount = new Intl.NumberFormat("en-US", {
+//   style: "currency",
+//   currency: "USD",
+// }).format(blubPrice * +(process.env.BLUB_AMOUNT ?? ""));
 
-console.log(formattedAmount);
+// console.log(`BLUB price: $${blubPrice}`);
+// console.log(`Portfolio: ${formattedAmount}`);

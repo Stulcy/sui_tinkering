@@ -2,12 +2,7 @@ import { Client, Events, GatewayIntentBits } from "discord.js";
 import { getBlubPrice } from "./getting_blub_price";
 
 export const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds, // servers
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.MessageContent,
-  ],
+  intents: [GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages],
 });
 
 const initialize = async () => {
@@ -22,7 +17,12 @@ const initialize = async () => {
   }
 
   client
-    .once("ready", async () => {})
+    .once("ready", async () => {
+      // await client.users
+      //   .fetch("207794615028285440")
+      //   .then((user) => user.send("gm"));
+      console.log((await client.users.fetch("207794615028285440")).displayName);
+    })
     .on(Events.MessageCreate, async (message) => {
       if (message.author.bot) return;
 
