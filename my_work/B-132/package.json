@@ -1,0 +1,16 @@
+{
+  "name": "b-132",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@mysten/sui": "^1.2.1",
+    "axios": "^1.7.7",
+    "discord.js": "^14.15.2"
+  }
+}
