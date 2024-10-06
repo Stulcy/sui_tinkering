@@ -24,19 +24,28 @@ const initialize = async () => {
   client.on(Events.MessageCreate, async (message) => {
     if (message.author.bot) return;
 
-    if (message.content === "price") {
-      await message.channel.sendTyping();
-      const blubPrice = await getBlubPrice();
-      await message.channel.send(`$${blubPrice}`);
-    } else if (message.content === "portfolio") {
-      await message.channel.sendTyping();
-      const blubPrice = await getBlubPrice();
-      const blubAmount = await getBlubAmount();
-      const formattedAmount = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(blubPrice * blubAmount);
-      await message.channel.send(formattedAmount);
+    switch (message.content) {
+      case "price": {
+        await message.channel.sendTyping();
+        const blubPrice = await getBlubPrice();
+        await message.channel.send(`$${blubPrice}`);
+        break;
+      }
+      case "portfolio": {
+        await message.channel.sendTyping();
+        let blubPrice = await getBlubPrice();
+        const blubAmount = await getBlubAmount();
+        const formattedAmount = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(blubPrice * blubAmount);
+        await message.channel.send(formattedAmount);
+        break;
+      }
+      default:
+        await message.channel.sendTyping();
+        await message.channel.send("Unknown command bro.");
+        break;
     }
   });
 };

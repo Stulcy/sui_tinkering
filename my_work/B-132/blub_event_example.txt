@@ -1,0 +1,26 @@
+{
+    id: {
+      txDigest: "HYPayeXkQaC8h7tnKffPtkKhnNMp2N8zSYjejZY2yFYv",
+      eventSeq: "0"
+    },
+    packageId: "0xeffc8ae61f439bb34c9b905ff8f29ec56873dcedf81c7123ff2f1f67c45ec302",
+    transactionModule: "cetus",
+    sender: "0x9e700ba87367298e8acaf545b08c39cddbab61d8c2e19e389d2901ea0c31bf12",
+    type: "0x1eabed72c53feb3805120a081dc15963c204dc8d091542592abaf7a35689b2fb::pool::SwapEvent",
+    parsedJson: {
+      after_sqrt_price: "14869997934168084386",
+      amount_in: "100000000000",
+      amount_out: "152368733174",
+      atob: false,
+      before_sqrt_price: "14868524563190000178",
+      fee_amount: "1000000000",
+      partner: "0x0000000000000000000000000000000000000000000000000000000000000000",
+      pool: "0x40a372f9ee1989d76ceb8e50941b04468f8551d091fb8a5d7211522e42e60aaf",
+      ref_amount: "0",
+      steps: "1",
+      vault_a_amount: "1473432686498912",
+      vault_b_amount: "939061595575082"
+    },
+    bcs: "13fNPDymUv4bBw2CKkmJBStfWULP4dFZjPtNVCR94nh9EBtYXBbUQVTMJ1GrGq8WLHTLeCyQHDXyhqDt8XyH3ZpwCEoSpt4uikBYMgNb5UN35wHzN8apkJ7oxuh7Ch24NSJudyAFRgXhexiaFTk23JtdSsnH5SJpftdmWyUPBKKnUXSsFS3sG6LwbtUx4GLEQJBRxBeC4UnVRW1fV",
+    timestampMs: "1728211458151"
+  }
