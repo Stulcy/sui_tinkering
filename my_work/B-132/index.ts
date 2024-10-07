@@ -1,6 +1,7 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
 import { getBlubPrice } from "./files/blub_price";
 import { getBlubAmount } from "./files/blub_amount";
+import { trackCetusTxs } from "./files/blub_cetus_events";
 
 export const client = new Client({
   intents: [GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages],
@@ -16,6 +17,9 @@ const initialize = async () => {
     // Initial contact
     const user = await client.users.fetch(process.env.DISCORD_USER_ID ?? "");
     await user.send("gm");
+
+    // Start listening for events
+    trackCetusTxs(user);
   } catch (e) {
     console.error("Login failed", e);
     process.exit(1);
