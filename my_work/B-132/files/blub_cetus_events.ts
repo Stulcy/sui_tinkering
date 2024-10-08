@@ -29,10 +29,6 @@ export const getBlubCetusTxs = async () => {
       query: {
         MoveEventType:
           "0x1eabed72c53feb3805120a081dc15963c204dc8d091542592abaf7a35689b2fb::pool::SwapEvent",
-        // TimeRange: {
-        //   startTime: (rn - 300000).toString(),
-        //   endTime: rn.toString(),
-        // },
       },
     })
     .then((response) => {
@@ -44,7 +40,7 @@ export const getBlubCetusTxs = async () => {
           const json = event.parsedJson as any;
 
           if (!history.includes(event.id.txDigest)) {
-            if (history.length > 10) {
+            if (history.length > 100) {
               history.shift();
             }
             history.push(event.id.txDigest);
@@ -77,19 +73,20 @@ export const trackCetusTxs = async (user: User) => {
     if (txs.length > 0) {
       txs.forEach((tx) => {
         const txEmbed = {
-          title: `${tx.type === "buy" ? "📈" : "📉"} ${tx.type.toUpperCase()}`,
+          color: tx.type === "buy" ? 0x3aeb34 : 0xeb3434,
+          title: `${tx.type === "buy" ? "🌱" : "🚨"} ${tx.type.toUpperCase()}`,
           author: {
-            name: tx.address,
-            url: `https://suivision.xyz/account/${tx.address}`,
+            name: tx.digest,
+            url: `https://suivision.xyz/txblock/${tx.digest}`,
           },
           fields: [
             {
-              name: `💧 SUI amount`,
-              value: tx.suiAmount.toString(),
+              name: `💧 ${tx.suiAmount.toFixed(2)} SUI`,
+              value: "",
             },
             {
-              name: "🔍 digest",
-              value: tx.digest,
+              name: "Wallet",
+              value: tx.address,
             },
           ],
           timestamp: new Date().toISOString(),
