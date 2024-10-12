@@ -1,4 +1,6 @@
 import axios from "axios";
+import { generalState } from "../state/general_state";
+import { FETCH_SUI_PRICE_DELAY_MS } from "../constants";
 
 export const getSuiPriceCoingecko = async (): Promise<number> => {
   try {
@@ -37,4 +39,21 @@ export const getSuiPriceCMC = async (): Promise<number> => {
   } catch (_) {
     return 0;
   }
+};
+
+export const fetchSuiPrice = async () => {
+  while (true) {
+    const price = await getSuiPrice();
+    generalState.suiPrice = price;
+    await new Promise((f) => setTimeout(f, FETCH_SUI_PRICE_DELAY_MS));
+  }
+};
+
+export const getSuiPrice = async () => {
+  let price = await getSuiPriceCMC();
+  if (price === 0) {
+    price = await getSuiPriceCoingecko();
+  }
+  generalState.suiPrice = price;
+  return price;
 };

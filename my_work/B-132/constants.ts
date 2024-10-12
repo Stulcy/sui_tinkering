@@ -1,3 +1,6 @@
+export const BLUB_COIN_TYPE =
+  "0xfa7ac3951fdca92c5200d468d31a365eb03b2be9936fde615e69f0c1274ad3a0::BLUB::BLUB";
+
 export const CETUS_BLUB_SUI_POOL =
   "0x40a372f9ee1989d76ceb8e50941b04468f8551d091fb8a5d7211522e42e60aaf";
 
@@ -14,3 +17,4 @@ export const GREEN_COLOR = 0x3aeb34;
 export const RED_COLOR = 0xeb3434;
 
 export const FETCH_EVENTS_DELAY_MS = 1000;
+export const FETCH_SUI_PRICE_DELAY_MS = 300000;
