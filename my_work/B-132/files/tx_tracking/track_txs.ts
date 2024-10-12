@@ -1,8 +1,12 @@
 import { User } from "discord.js";
+import {
+  GREEN_COLOR,
+  RED_COLOR,
+  FETCH_EVENTS_DELAY_MS,
+} from "../general/constants";
+import { generalState } from "../../state/general_state";
 import { getCetusTxs } from "./cetus_txs";
 import { getTurbosTxs } from "./turbos_txs";
-import { FETCH_EVENTS_DELAY_MS, GREEN_COLOR, RED_COLOR } from "../constants";
-import { generalState } from "../state/general_state";
 
 export const trackTxs = async (user: User) => {
   while (true) {

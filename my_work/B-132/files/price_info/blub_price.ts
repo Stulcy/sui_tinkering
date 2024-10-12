@@ -1,6 +1,6 @@
 import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
-import { generalState } from "../state/general_state";
-import { CETUS_BLUB_SUI_POOL } from "../constants";
+import { generalState } from "../../state/general_state";
+import { CETUS_BLUB_SUI_POOL } from "../general/constants";
 
 const rpcUrl = getFullnodeUrl("mainnet");
 

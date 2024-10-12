@@ -1,9 +1,9 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
-import { getBlubPrice } from "./files/blub_price";
-import { getBlubAmount } from "./files/blub_amount";
-import { trackTxs } from "./files/track_txs";
+import { getBlubAmount } from "./files/price_info/blub_amount";
+import { getBlubPrice } from "./files/price_info/blub_price";
+import { fetchSuiPrice, getSuiPrice } from "./files/price_info/sui_price";
+import { trackTxs } from "./files/tx_tracking/track_txs";
 import { generalState } from "./state/general_state";
-import { fetchSuiPrice, getSuiPrice } from "./files/sui_price";
 
 export const client = new Client({
   intents: [GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages],

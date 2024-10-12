@@ -1,5 +1,5 @@
 import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
-import { BLUB_COIN_TYPE } from "../constants";
+import { BLUB_COIN_TYPE } from "../general/constants";
 
 const rpcUrl = getFullnodeUrl("mainnet");
 

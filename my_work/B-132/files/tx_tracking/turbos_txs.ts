@@ -1,6 +1,9 @@
 import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
-import { BlubTx } from "../types";
-import { TURBOS_BLUB_SUI_POOL, TURBOS_SWAP_EVENT_TYPE } from "../constants";
+import { BlubTx } from "../general/types";
+import {
+  TURBOS_BLUB_SUI_POOL,
+  TURBOS_SWAP_EVENT_TYPE,
+} from "../general/constants";
 
 const rpcUrl = getFullnodeUrl("mainnet");
 
