@@ -1,5 +1,5 @@
 import axios from "axios";
-import { generalState } from "../../state/general_state";
+import { generalState } from "../../state/states";
 import { FETCH_SUI_PRICE_DELAY_MS } from "../general/constants";
 
 export const getSuiPriceCoingecko = async (): Promise<number> => {

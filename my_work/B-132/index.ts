@@ -3,7 +3,7 @@ import { getBlubAmount } from "./files/price_info/blub_amount";
 import { getBlubPrice } from "./files/price_info/blub_price";
 import { trackSuiPrice, getSuiPrice } from "./files/price_info/sui_price";
 import { trackTxs } from "./files/tx_tracking/track_txs";
-import { generalState } from "./state/general_state";
+import { generalState } from "./state/states";
 
 export const client = new Client({
   intents: [GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages],
@@ -44,7 +44,7 @@ const initialize = async () => {
       }
       case "price": {
         const blubPrice = await getBlubPrice();
-        await message.channel.send(`$${blubPrice}`);
+        await message.channel.send(`$${blubPrice.toFixed(10)}`);
         break;
       }
       case "portfolio": {
