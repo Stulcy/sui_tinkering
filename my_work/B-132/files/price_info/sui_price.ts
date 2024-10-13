@@ -41,7 +41,7 @@ export const getSuiPriceCMC = async (): Promise<number> => {
   }
 };
 
-export const fetchSuiPrice = async () => {
+export const trackSuiPrice = async () => {
   while (true) {
     const price = await getSuiPrice();
     generalState.suiPrice = price;

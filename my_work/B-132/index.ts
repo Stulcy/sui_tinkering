@@ -1,7 +1,7 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
 import { getBlubAmount } from "./files/price_info/blub_amount";
 import { getBlubPrice } from "./files/price_info/blub_price";
-import { fetchSuiPrice, getSuiPrice } from "./files/price_info/sui_price";
+import { trackSuiPrice, getSuiPrice } from "./files/price_info/sui_price";
 import { trackTxs } from "./files/tx_tracking/track_txs";
 import { generalState } from "./state/general_state";
 
@@ -21,7 +21,7 @@ const initialize = async () => {
     await user.send("gm");
 
     // Start fetching SUI price
-    fetchSuiPrice();
+    trackSuiPrice();
 
     // Start listening for TXs
     trackTxs(user);
@@ -36,6 +36,12 @@ const initialize = async () => {
     await message.channel.sendTyping();
 
     switch (message.content) {
+      case "commands": {
+        await message.channel.send(
+          `- **price** ($BLUB price)\n- **portfolio** ($ value of $BLUB)\n - **start** (start tracking TXs)\n - **stop** (stop tracking TXs)\n - **update price** (manually fetch $SUI price)\n`
+        );
+        break;
+      }
       case "price": {
         const blubPrice = await getBlubPrice();
         await message.channel.send(`$${blubPrice}`);
@@ -51,7 +57,7 @@ const initialize = async () => {
         await message.channel.send(formattedAmount);
         break;
       }
-      case "start":
+      case "start": {
         if (generalState.txTrackingRunning) {
           await message.channel.send("Already running chief.");
         } else {
@@ -59,7 +65,8 @@ const initialize = async () => {
           await message.channel.send("Tx tracking started.");
         }
         break;
-      case "stop":
+      }
+      case "stop": {
         if (!generalState.txTrackingRunning) {
           await message.channel.send("Can't turn it off twice man.");
         } else {
@@ -67,13 +74,16 @@ const initialize = async () => {
           await message.channel.send("Tx tracking stopped.");
         }
         break;
-      case "update price":
+      }
+      case "update price": {
         const price = await getSuiPrice();
         await message.channel.send(`SUI price updated to $${price}`);
         break;
-      default:
+      }
+      default: {
         await message.channel.send("Unknown command bro.");
         break;
+      }
     }
   });
 };
