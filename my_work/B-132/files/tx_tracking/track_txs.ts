@@ -8,8 +8,9 @@ import { generalState } from "../../state/states";
 import { getCetusTxs } from "./cetus_txs";
 import { getTurbosTxs } from "./turbos_txs";
 import { getBlubPrice } from "../price_info/blub_price";
+import { updateFlowNumbers } from "../flow/flow_functions";
 
-export const trackTxs = async (user: User) => {
+export const trackTxs = async () => {
   while (true) {
     if (generalState.txTrackingRunning) {
       const cetusTxs = await getCetusTxs();
@@ -18,6 +19,8 @@ export const trackTxs = async (user: User) => {
 
       if (txs.length > 0) {
         txs.forEach(async (tx) => {
+          await updateFlowNumbers(tx);
+
           if (tx.suiAmount * generalState.suiPrice > 10000) {
             const blubPrice = await getBlubPrice();
             const txEmbed = {
@@ -47,7 +50,7 @@ export const trackTxs = async (user: User) => {
               ],
               timestamp: new Date().toISOString(),
             };
-            user.send({ embeds: [txEmbed] });
+            generalState.user!.send({ embeds: [txEmbed] });
           }
         });
       }

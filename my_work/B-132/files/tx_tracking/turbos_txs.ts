@@ -40,9 +40,7 @@ export const getTurbosTxs = async () => {
               type: json.a_to_b ? "sell" : "buy",
               suiAmount: json.amount_b / 10 ** 9,
               blubAmount: json.amount_a / 10 ** 2,
-              date: new Date(
-                event.timestampMs ? +event.timestampMs : Date.now()
-              ).toLocaleString(),
+              timestampMs: event.timestampMs ? +event.timestampMs : Date.now(),
               digest: event.id.txDigest,
             });
           }

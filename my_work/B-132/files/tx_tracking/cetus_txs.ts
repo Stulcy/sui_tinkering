@@ -42,9 +42,7 @@ export const getCetusTxs = async () => {
                 (json.atob ? json.amount_out : json.amount_in) / 10 ** 9,
               blubAmount:
                 (json.atob ? json.amount_in : json.amount_out) / 10 ** 2,
-              date: new Date(
-                event.timestampMs ? +event.timestampMs : Date.now()
-              ).toLocaleString(),
+              timestampMs: event.timestampMs ? +event.timestampMs : Date.now(),
               digest: event.id.txDigest,
             });
           }

@@ -3,7 +3,8 @@ import { getBlubAmount } from "./files/price_info/blub_amount";
 import { getBlubPrice } from "./files/price_info/blub_price";
 import { trackSuiPrice, getSuiPrice } from "./files/price_info/sui_price";
 import { trackTxs } from "./files/tx_tracking/track_txs";
-import { generalState } from "./state/states";
+import { flowState, generalState } from "./state/states";
+import { initFlowTime } from "./files/flow/flow_functions";
 
 export const client = new Client({
   intents: [GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages],
@@ -14,17 +15,21 @@ const initialize = async () => {
 
   try {
     await client.login(clientToken);
-    console.log("Bot Online");
 
     // Initial contact
     const user = await client.users.fetch(process.env.DISCORD_USER_ID ?? "");
+    generalState.user = user;
+
     await user.send("gm");
+    console.log("Bot Online");
+
+    initFlowTime();
 
     // Start fetching SUI price
     trackSuiPrice();
 
     // Start listening for TXs
-    trackTxs(user);
+    trackTxs();
   } catch (e) {
     console.error("Login failed", e);
     process.exit(1);
@@ -38,7 +43,7 @@ const initialize = async () => {
     switch (message.content) {
       case "commands": {
         await message.channel.send(
-          `- **price** ($BLUB price)\n- **portfolio** ($ value of $BLUB)\n - **start** (start tracking TXs)\n - **stop** (stop tracking TXs)\n - **update price** (manually fetch $SUI price)\n`
+          `- **price** ($BLUB price)\n- **portfolio** ($ value of $BLUB)\n - **start** (start tracking TXs)\n - **stop** (stop tracking TXs)\n - **update price** (manually fetch $SUI price)\n - **flow** (inflow/outflow stats)`
         );
         break;
       }
@@ -78,6 +83,29 @@ const initialize = async () => {
       case "update price": {
         const price = await getSuiPrice();
         await message.channel.send(`SUI price updated to $${price}`);
+        break;
+      }
+      case "flow": {
+        const hourlyFlows = Array.from(flowState.flowPerHour.entries());
+        const last4Hours = hourlyFlows
+          .filter((item) => item[0] < 4)
+          .reduce((prev, curr) => (prev += curr[1]), 0);
+        const last12Hours = hourlyFlows
+          .filter((item) => item[0] < 12)
+          .reduce((prev, curr) => (prev += curr[1]), 0);
+        const last24Hours = hourlyFlows.reduce(
+          (prev, curr) => (prev += curr[1]),
+          0
+        );
+        await message.channel.send(
+          `Last hour: **${flowState.flowPerHour
+            .get(0)
+            ?.toFixed(2)} SUI**\nLast 4 hours: **${last4Hours.toFixed(
+            2
+          )} SUI**\nLast 12 hours: **${last12Hours.toFixed(
+            2
+          )} SUI**\nLast 24 hours: **${last24Hours.toFixed(2)} SUI**`
+        );
         break;
       }
       default: {
