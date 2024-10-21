@@ -16,3 +16,5 @@ export const getBlubAmount = async () => {
 
   return blubAmount;
 };
+
+export const quoteBlubSell = async () => {};

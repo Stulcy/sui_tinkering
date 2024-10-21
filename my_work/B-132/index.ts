@@ -5,6 +5,7 @@ import { trackSuiPrice, getSuiPrice } from "./files/price_info/sui_price";
 import { trackTxs } from "./files/tx_tracking/track_txs";
 import { flowState, generalState } from "./state/states";
 import { initFlowTime } from "./files/flow/flow_functions";
+import { getSellQuote } from "./files/selling/sell_quote_hop";
 
 export const client = new Client({
   intents: [GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages],
@@ -43,7 +44,7 @@ const initialize = async () => {
     switch (message.content) {
       case "commands": {
         await message.channel.send(
-          `- **price** ($BLUB price)\n- **portfolio** ($ value of $BLUB)\n - **start** (start tracking TXs)\n - **stop** (stop tracking TXs)\n - **update price** (manually fetch $SUI price)\n - **flow** (inflow/outflow stats)`
+          `- **price** ($BLUB price)\n- **portfolio** ($ value of $BLUB)\n - **start** (start tracking TXs)\n - **stop** (stop tracking TXs)\n - **update price** (manually fetch $SUI price)\n - **flow** (inflow/outflow stats)\n - **sell** (if u Dolfe the chart)`
         );
         break;
       }
@@ -53,7 +54,7 @@ const initialize = async () => {
         break;
       }
       case "portfolio": {
-        let blubPrice = await getBlubPrice();
+        const blubPrice = await getBlubPrice();
         const blubAmount = await getBlubAmount();
         const formattedAmount = new Intl.NumberFormat("en-US", {
           style: "currency",
@@ -106,6 +107,15 @@ const initialize = async () => {
             2
           )} SUI**\nLast 24 hours: **${last24Hours.toFixed(2)} SUI**`
         );
+        break;
+      }
+      case "sell": {
+        const amountOut = await getSellQuote();
+        const formattedAmount = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amountOut);
+        await message.channel.send(formattedAmount);
         break;
       }
       default: {
