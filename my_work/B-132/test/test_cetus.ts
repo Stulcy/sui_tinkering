@@ -2,9 +2,12 @@ import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 import {
   CETUS_BLUB_SUI_POOL,
   CETUS_SWAP_EVENT_TYPE,
-  TURBOS_BLUB_SUI_POOL,
-  TURBOS_SWAP_EVENT_TYPE,
 } from "../files/general/constants";
+
+interface WalletData {
+  numberOfTx: number;
+  volume: number;
+}
 
 const rpcUrl = getFullnodeUrl("mainnet");
 
@@ -14,9 +17,9 @@ let nextCursor = null;
 
 let inOutSui = 0;
 
-const history: string[] = [];
-
 const trackingStartDate = Date.now();
+
+const volumePerWallet = new Map<string, WalletData>();
 
 const hourInMs = 1000 * 60 * 60;
 
@@ -40,14 +43,25 @@ while (suiChanges[4] === 0) {
         )
         .map((event) => {
           const json = event.parsedJson as any;
-          if (!history.includes(event.id.txDigest)) {
-            if (history.length > 100) {
-              history.shift();
-            }
-            history.push(event.id.txDigest);
-            inOutSui += json.atob
-              ? -(json.atob ? json.amount_out : json.amount_in) / 10 ** 9
-              : (json.atob ? json.amount_out : json.amount_in) / 10 ** 9;
+
+          const change = json.atob
+            ? -(json.atob ? json.amount_out : json.amount_in) / 10 ** 9
+            : (json.atob ? json.amount_out : json.amount_in) / 10 ** 9;
+
+          inOutSui += change;
+
+          const prevAmount = volumePerWallet.get(event.sender);
+
+          if (prevAmount) {
+            volumePerWallet.set(event.sender, {
+              numberOfTx: prevAmount.numberOfTx + 1,
+              volume: prevAmount.volume + change,
+            });
+          } else {
+            volumePerWallet.set(event.sender, {
+              numberOfTx: 1,
+              volume: change,
+            });
           }
         });
       // Add to last X hours data
@@ -80,6 +94,16 @@ while (suiChanges[4] === 0) {
         if (trackingStartDate - eventsDateUNIXms > hourInMs * 24) {
           suiChanges[4] = inOutSui;
           console.log("Last 24 hours:", inOutSui);
+
+          // Recap
+          const walletData = [...volumePerWallet].sort(
+            (a, b) => b[1].volume - a[1].volume
+          );
+          console.log(`\nTOP BUYERS:\n`, walletData.slice(0, 10));
+          console.log(
+            `\nTOP SELLERS:\n`,
+            walletData.slice(walletData.length - 11, walletData.length - 1)
+          );
         }
       }
       nextCursor = response.nextCursor;

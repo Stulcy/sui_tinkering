@@ -12,8 +12,6 @@ let nextCursor = null;
 
 let inOutSui = 0;
 
-const history: string[] = [];
-
 const trackingStartDate = Date.now();
 
 const hourInMs = 1000 * 60 * 60;
@@ -38,15 +36,12 @@ while (suiChanges[4] === 0) {
         )
         .map((event) => {
           const json = event.parsedJson as any;
-          if (!history.includes(event.id.txDigest)) {
-            if (history.length > 100) {
-              history.shift();
-            }
-            history.push(event.id.txDigest);
-            inOutSui += json.a_to_b
-              ? -json.amount_b / 10 ** 9
-              : json.amount_b / 10 ** 9;
-          }
+
+          inOutSui += json.a_to_b
+            ? -json.amount_b / 10 ** 9
+            : json.amount_b / 10 ** 9;
+
+          console.log(event.sender);
         });
       // Add to last X hours data
       if (suiChanges[0] === 0) {
