@@ -1,0 +1,16 @@
+{
+  "name": "wallet_checker",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@mysten/sui": "^1.13.0",
+    "@types/mongodb": "^4.0.7",
+    "mongoose": "^8.7.3"
+  }
+}
