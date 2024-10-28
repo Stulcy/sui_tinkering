@@ -71,6 +71,7 @@ let newWalletsAdded = 0;
 
 await db_init();
 
+// Find all wallets holding BLUB objects
 while (hasNextPage) {
   await client
     .query({

@@ -12,6 +12,7 @@ for await (const wallet of Wallet.find()) {
   let suins: string | undefined;
   let getOut = false;
 
+  // BLUB balance fetch
   await sui_client
     .getAllBalances({
       owner: wallet.address,
@@ -31,12 +32,14 @@ for await (const wallet of Wallet.find()) {
       return;
     });
 
+  // Wallet has an empty BLUB object
   if (getOut) {
     await Wallet.deleteOne({ address: wallet.address });
     console.log(wallet.address, "was deleted");
     continue;
   }
 
+  // SuiNS fetch
   await sui_client
     .resolveNameServiceNames({ address: wallet.address })
     .then((res) => {
@@ -45,12 +48,14 @@ for await (const wallet of Wallet.find()) {
       }
     })
     .catch((error) => {
+      // TODO: if suiNS just expired, skip
       console.error("Error fetching suins:", error);
       return;
     });
 
   wallet.blub_amount = blubAmount;
 
+  // SuiNS parsing
   if (suins) {
     suins = suins.slice(0, -4);
     if (suins.includes(".")) {
