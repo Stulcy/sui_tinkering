@@ -47,11 +47,7 @@ for await (const wallet of Wallet.find()) {
         suins = res.data[0];
       }
     })
-    .catch((error) => {
-      // TODO: if suiNS just expired, skip
-      console.error("Error fetching suins:", error);
-      return;
-    });
+    .catch((_) => {});
 
   wallet.blub_amount = blubAmount;
 

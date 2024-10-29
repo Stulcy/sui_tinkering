@@ -114,9 +114,9 @@ while (hasNextPage) {
         newWalletsAdded
       );
     })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
+    .catch((_) => {
       hasNextPage = false;
+      console.log(cursor);
     });
 }
 
